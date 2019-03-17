@@ -55,7 +55,11 @@
   <ItemGroup>
      <Compile Include="Assets\_Scripts\BoardManager.cs" />
      <Compile Include="Assets\_Scripts\Candy.cs" />
+     <Compile Include="Assets\_Scripts\CandyAnimation.cs" />
+     <Compile Include="Assets\_Scripts\CronometroText.cs" />
+     <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\GUIManager.cs" />
+     <Compile Include="Assets\_Scripts\MenuManager.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Arturo/proyecto/CandyCrushPlatzi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

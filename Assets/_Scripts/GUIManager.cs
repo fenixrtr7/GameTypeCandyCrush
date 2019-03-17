@@ -6,15 +6,12 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public static GUIManager sharedInstance;
-    public Text movesText, scoreText;
-    int moveCounter;
-    int score;
+    public Text movesText, scoreText, maxScoreText, maxScoreText2;
+    int moveCounter, score, maxScore;
     public int Score
     {
         get
-        {
-            return score;
-        }
+        { return score; }
         set
         {
             score = value;
@@ -23,12 +20,12 @@ public class GUIManager : MonoBehaviour
     }
     public int MoveCounter
     {
-        get { return moveCounter;}
-        set 
-        { 
+        get { return moveCounter; }
+        set
+        {
             moveCounter = value;
             movesText.text = "Moves: " + moveCounter;
-            if(moveCounter <= 0)
+            if (moveCounter <= 0)
             {
                 moveCounter = 0;
                 StartCoroutine(GameOver());
@@ -48,15 +45,43 @@ public class GUIManager : MonoBehaviour
             Destroy(gameObject);
         }
         score = 0;
-        moveCounter = 30;
-        movesText.text = "Moves: " + moveCounter;
-        scoreText.text = "Score: " + score;
+        moveCounter = 10;
+        maxScore = PlayerPrefs.GetInt("MaxScore", 0);
+        UpdateSoreMoves();
+        UpdateMaxScore();
     }
 
     private IEnumerator GameOver()
     {
+        if (score > maxScore)
+        {
+            PlayerPrefs.SetInt("MaxScore", score);
+            maxScore = PlayerPrefs.GetInt("MaxScore");
+            UpdateMaxScore();
+        }
+
         yield return new WaitUntil(() => !BoardManager.sharedInstance.isShifting);
         yield return new WaitForSeconds(0.25f);
-        // Invocar pantalla para Game Over
+
+        MenuManager.sharedInstance.ShowGameOver();
     }
+    public void Reset()
+    {
+        score = 0;
+        moveCounter = 10;
+        UpdateSoreMoves();
+    }
+
+    // Actualizar Max Score
+    void UpdateMaxScore()
+    {
+        maxScoreText.text = "Max Score: " + maxScore;
+        maxScoreText2.text = "Max Score: " + maxScore;
+    }
+    void UpdateSoreMoves()
+    {
+        movesText.text = "Moves: " + moveCounter;
+        scoreText.text = "Score: " + score;
+    }
+
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    //Hola
     public static BoardManager sharedInstance;
     public List<Sprite> prefabs = new List<Sprite>();
     public GameObject currentCandy;
@@ -156,4 +155,6 @@ public class BoardManager : MonoBehaviour
         }
         return possibleCandies[Random.Range(0, possibleCandies.Count)];
     }
+
+    
 }
