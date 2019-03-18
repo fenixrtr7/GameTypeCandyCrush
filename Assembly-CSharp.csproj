@@ -60,6 +60,7 @@
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\GUIManager.cs" />
      <Compile Include="Assets\_Scripts\MenuManager.cs" />
+     <Compile Include="Assets\_Scripts\TextAnimationFactor.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Arturo/proyecto/CandyCrushPlatzi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

@@ -16,10 +16,12 @@ public class BoardManager : MonoBehaviour
     private Candy selectedCandy;
 
     public const int MinCandiesToMatch = 2;
+    public int factorMultiplicacion = 1;
+    int valorAlto = 2;
     // Start is called before the first frame update
     void Start()
     {
-        if( sharedInstance == null)
+        if (sharedInstance == null)
         {
             sharedInstance = this;
         }
@@ -31,8 +33,7 @@ public class BoardManager : MonoBehaviour
         Vector2 offset = currentCandy.GetComponent<BoxCollider2D>().size;
         CreateInitialBoard(offset);
     }
-
-    void CreateInitialBoard(Vector2 offset)
+    void CreateInitialBoard(Vector2 offset) // Crear tablero
     {
         candies = new GameObject[xSize, ySize];
 
@@ -42,9 +43,9 @@ public class BoardManager : MonoBehaviour
         int idx = -1;
 
         // Crear la matriz
-        for(int x = 0; x < xSize; x++)
+        for (int x = 0; x < xSize; x++)
         {
-            for(int y = 0; y < ySize; y++)
+            for (int y = 0; y < ySize; y++)
             {
                 //Instanciar el caramelo
                 GameObject newCandy = Instantiate(currentCandy,
@@ -80,9 +81,10 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < ySize; y++)
             {
                 // Si es NULL se ejecuta MakeCandiesFall
-                if (candies[x,y].GetComponent<SpriteRenderer>().sprite == null)
+                if (candies[x, y].GetComponent<SpriteRenderer>().sprite == null)
                 {
-                    yield return StartCoroutine(MakeCandiesFall(x,y));
+                    factorMultiplicacion++;
+                    yield return StartCoroutine(MakeCandiesFall(x, y));
                     break;
                 }
             }
@@ -107,7 +109,7 @@ public class BoardManager : MonoBehaviour
         // Se buscan los renderes null
         for (int y = yStart; y < ySize; y++)
         {
-            SpriteRenderer spriteRenderer = candies[x,y].GetComponent<SpriteRenderer>();
+            SpriteRenderer spriteRenderer = candies[x, y].GetComponent<SpriteRenderer>();
 
             // Conteo de los caramelos NULL
             if (spriteRenderer.sprite == null)
@@ -121,12 +123,13 @@ public class BoardManager : MonoBehaviour
         //Para cada caramelo NULL
         for (int i = 0; i < nullCandies; i++)
         {
-            GUIManager.sharedInstance.Score +=10;
+            GUIManager.sharedInstance.Score += 10 * factorMultiplicacion;
+
             // Tiene un delay
             yield return new WaitForSeconds(shiftDelay);
 
             // Los coloca abajo
-            for (int j = 0; j < renderes.Count -1; j++)
+            for (int j = 0; j < renderes.Count - 1; j++)
             {
                 renderes[j].sprite = renderes[j + 1].sprite;
                 // El de arriba NULL por que no hay mas
@@ -134,9 +137,13 @@ public class BoardManager : MonoBehaviour
             }
         }
         isShifting = false;
+        //TODO
+        // Imprimir Resultado
+        //TODO
+        factorMultiplicacion = 1;
     }
 
-     Sprite GetNewCandy(int x, int y)
+    Sprite GetNewCandy(int x, int y)
     {
         List<Sprite> possibleCandies = new List<Sprite>();
         possibleCandies.AddRange(prefabs);
@@ -145,15 +152,32 @@ public class BoardManager : MonoBehaviour
         {
             possibleCandies.Remove(candies[x - 1, y].GetComponent<SpriteRenderer>().sprite);
         }
-        if(x < xSize -1)
+        if (x < xSize - 1)
         {
             possibleCandies.Remove(candies[x + 1, y].GetComponent<SpriteRenderer>().sprite);
         }
-        if(y > 0)
+        if (y > 0)
         {
             possibleCandies.Remove(candies[x, y - 1].GetComponent<SpriteRenderer>().sprite);
         }
         return possibleCandies[Random.Range(0, possibleCandies.Count)];
+    }
+
+    private void Update()
+     {
+        if (factorMultiplicacion > valorAlto)
+        {
+            valorAlto = factorMultiplicacion;
+            
+            // Print Factor Multimplicacion
+            GUIManager.sharedInstance.PintFactorMulti(valorAlto);
+        }
+         
+        if (factorMultiplicacion == 1)
+        {
+            valorAlto = 2;
+        }
+        
     }
 
     

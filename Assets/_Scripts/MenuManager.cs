@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
     // Activar MENU
     public void ShowMainMenu()
     {
+        GameManager.sharedInstance.StopGame();
         menuCanvas.enabled = true;
         inGameCanvas.enabled = false;
         gameOverCanvas.enabled = false;
@@ -32,6 +33,7 @@ public class MenuManager : MonoBehaviour
     // Activar "in GAME"
     public void ShowInGame()
     {
+        GameManager.sharedInstance.InGame();
         menuCanvas.enabled = false;
         inGameCanvas.enabled = true;
         gameOverCanvas.enabled = false;
@@ -39,6 +41,7 @@ public class MenuManager : MonoBehaviour
     // Activar "Game over"
     public void ShowGameOver()
     {
+        GameManager.sharedInstance.StopGame();
         menuCanvas.enabled = false;
         inGameCanvas.enabled = true;
         gameOverCanvas.enabled = true;

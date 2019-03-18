@@ -27,9 +27,12 @@ public class Candy : MonoBehaviour
 
     void SelectCandy()
     {
-        isSelected = true;
-        spriteRenderer.color = selectedColor;
-        previousSelected = gameObject.GetComponent<Candy>();
+        if (GameManager.sharedInstance.inGame)
+        {
+            isSelected = true;
+            spriteRenderer.color = selectedColor;
+            previousSelected = gameObject.GetComponent<Candy>();
+        }
     }
 
     void DeselectCandy()
@@ -153,6 +156,7 @@ public class Candy : MonoBehaviour
                 // Desactivamos el Candy
                 candy.GetComponent<SpriteRenderer>().sprite = null;
             }
+            BoardManager.sharedInstance.factorMultiplicacion++;
             return true;
         }
         else
@@ -171,7 +175,7 @@ public class Candy : MonoBehaviour
         bool hmatch = ClearMatch(new Vector2[2] { Vector2.left, Vector2.right });
         bool vMatch = ClearMatch(new Vector2[2] { Vector2.up, Vector2.down });
 
-        // Si existe un movimiento que lleve a MATCH
+        // Si existe un movimiento que llevo a MATCH
         if (hmatch || vMatch)
         {
             // Anular al propio objeto actual
@@ -182,6 +186,7 @@ public class Candy : MonoBehaviour
             // Activara la corrutina de busqueda
             StartCoroutine(BoardManager.sharedInstance.FindNullCandies());
         }
+
     }
 
 }

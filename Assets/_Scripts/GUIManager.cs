@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public static GUIManager sharedInstance;
-    public Text movesText, scoreText, maxScoreText, maxScoreText2;
-    int moveCounter, score, maxScore;
+    public Text movesText, scoreText, maxScoreText, maxScoreText2, factorMultiText;
+    int saveMoveCounter, score, maxScore;
+    public int moveCounter = 20;
     public int Score
     {
         get
@@ -45,7 +46,7 @@ public class GUIManager : MonoBehaviour
             Destroy(gameObject);
         }
         score = 0;
-        moveCounter = 10;
+        saveMoveCounter = moveCounter;
         maxScore = PlayerPrefs.GetInt("MaxScore", 0);
         UpdateSoreMoves();
         UpdateMaxScore();
@@ -68,7 +69,7 @@ public class GUIManager : MonoBehaviour
     public void Reset()
     {
         score = 0;
-        moveCounter = 10;
+        moveCounter = saveMoveCounter;
         UpdateSoreMoves();
     }
 
@@ -82,6 +83,10 @@ public class GUIManager : MonoBehaviour
     {
         movesText.text = "Moves: " + moveCounter;
         scoreText.text = "Score: " + score;
+    }
+
+    public void PintFactorMulti(int dato){
+        factorMultiText.text = "x " + dato;
     }
 
 }
